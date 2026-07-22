@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - WebSite</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .contact-container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    .contact-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .contact-header h1 {
+      font-size: 2.2rem;
+      color: #111827;
+      margin-bottom: 8px;
+    }
+
+    .contact-header p {
+      color: #6b7280;
+      font-size: 1.1rem;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 30px;
+    }
+
+    @media (max-width: 768px) {
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .info-card {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e5e7eb;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .info-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      background: #eff6ff;
+      color: #2563eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+
+    .info-text h4 {
+      margin: 0 0 4px 0;
+      font-size: 1.1rem;
+      color: #1f2937;
+    }
+
+    .info-text a, .info-text p {
+      margin: 0;
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .info-text a:hover {
+      text-decoration: underline;
+    }
+
+    .contact-form-card {
+      background: #ffffff;
+      padding: 28px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e5e7eb;
+    }
+
+    .contact-form-card h3 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      color: #111827;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 6px;
+      color: #374151;
+      font-size: 0.9rem;
+    }
+
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-family: inherit;
+      box-sizing: border-box;
+    }
+
+    .form-group input:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: #2563eb;
+      color: #ffffff;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-submit:hover {
+      background: #1d4ed8;
+    }
+
+    .status-msg {
+      margin-top: 15px;
+      font-weight: bold;
+      color: #16a34a;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <div>
+    <nav class="navbar">
+      <a href="index.html" class="logo">WebSite</a>
+      <ul class="nav-links">
+        <li><a href="home.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html" class="active">Contact Us</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="contact-container">
+    <div class="contact-header">
+      <h1>Get in Touch</h1>
+      <p>Have questions, feedback, or need support? Reach out to us anytime!</p>
+    </div>
+
+    <div class="contact-grid">
+      <!-- Direct Info Cards -->
+      <div class="contact-info">
+        <div class="info-card">
+          <div class="info-icon">📞</div>
+          <div class="info-text">
+            <h4>Phone / WhatsApp</h4>
+            <a href="https://wa.me/923000000000" target="_blank">+92 300 0000000</a>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">✉️</div>
+          <div class="info-text">
+            <h4>Email Address</h4>
+            <a href="mailto:haroonkamran@example.com">haroonkamran@example.com</a>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">📍</div>
+          <div class="info-text">
+            <h4>Location</h4>
+            <p style="color: #4b5563;">Pakistan</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="contact-form-card">
+        <h3>Send us a Message</h3>
+        <form id="contactForm">
+          <div class="form-group">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" placeholder="Haroon Kamran" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Your Email</label>
+            <input type="email" id="email" placeholder="name@example.com" required>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" rows="4" placeholder="How can we help you?" required></textarea>
+          </div>
+
+          <button type="submit" class="btn-submit">Send Message</button>
+        </form>
+        <div id="statusMsg" class="status-msg"></div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCQdkuuTAvR7W7O4AKzvLG4E6p4yzRABJc",
+      authDomain: "opih-e3eb5.firebaseapp.com",
+      projectId: "opih-e3eb5",
+      storageBucket: "opih-e3eb5.firebasestorage.app",
+      messagingSenderId: "892201531636",
+      appId: "1:892201531636:web:3765735604a0616752c6a1",
+      measurementId: "G-9ZZ96PBRSP"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const form = document.getElementById("contactForm");
+    const statusMsg = document.getElementById("statusMsg");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const message = document.getElementById("message").value;
+
+      try {
+        statusMsg.style.color = "#2563eb";
+        statusMsg.textContent = "Sending message...";
+
+        // Save directly to the 'messages' collection in Firestore
+        await addDoc(collection(db, "messages"), {
+          name: name,
+          email: email,
+          message: message,
+          createdAt: new Date().toISOString()
+        });
+
+        statusMsg.style.color = "#16a34a";
+        statusMsg.textContent = "Thank you! Your message has been sent successfully.";
+        form.reset();
+
+      } catch (err) {
+        console.error("Error sending message:", err);
+        statusMsg.style.color = "#dc2626";
+        statusMsg.textContent = "Error sending message. Please try again.";
+      }
+    });
+  </script>
+
+</body>
+</html>
