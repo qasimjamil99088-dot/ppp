@@ -214,6 +214,52 @@
       movieList.innerHTML = "Error loading movies: " + err.message;
     }
   }
+    // Load & Render Incoming User Messages
+async function loadUserMessages() {
+  const messagesList = window.document.getElementById("messagesList");
+  if (!messagesList) return;
+
+  try {
+    const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      messagesList.innerHTML = "<p>No messages received yet.</p>";
+      return;
+    }
+
+    messagesList.innerHTML = "";
+
+    querySnapshot.forEach((docSnap) => {
+      const msg = docSnap.data();
+      const docId = docSnap.id;
+
+      const item = window.document.createElement("div");
+      item.style.cssText = "padding: 12px; border-bottom: 1px solid #eee; margin-bottom: 10px;";
+      
+      item.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <strong style="color: #111827;">${msg.name}</strong>
+          <span style="font-size: 0.8rem; color: #6b7280;">${new Date(msg.createdAt).toLocaleDateString()}</span>
+        </div>
+        <p style="margin: 4px 0; color: #2563eb; font-size: 0.9rem;">${msg.email}</p>
+        <p style="margin: 8px 0 0 0; color: #374151;">${msg.message}</p>
+        <button class="delete-msg-btn" data-id="${docId}" style="margin-top: 8px; background: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer;">Delete Message</button>
+      `;
+
+      item.querySelector(".delete-msg-btn").addEventListener("click", async () => {
+        if (confirm("Delete this message?")) {
+          await deleteDoc(doc(db, "messages", docId));
+          loadUserMessages();
+        }
+      });
+
+      messagesList.appendChild(item);
+    });
+  } catch (err) {
+    messagesList.innerHTML = "Error loading messages: " + err.message;
+  }
+}
 </script>
 </body>
 </html>
