@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Admin - Add Movie (Google Drive)</title>
+  <title>Admin - Add Movie</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    .admin-card { max-width: 450px; margin: 40px auto; padding: 24px; background: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .admin-card { max-width: 450px; margin: 40px auto; padding: 24px; background: #ffffff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
     .form-group { margin-bottom: 15px; }
     .form-group label { display: block; font-weight: bold; margin-bottom: 5px; }
     .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; }
@@ -23,17 +23,17 @@
       </div>
 
       <div class="form-group">
-        <label for="description">Description</label>
+        <label for="description">Description / Seasons</label>
         <textarea id="description" rows="3" placeholder="e.g. 3 Seasons <br> Released in 2024" required></textarea>
       </div>
 
       <div class="form-group">
-        <label for="thumbnailUrl">Thumbnail Image Link (Image URL)</label>
-        <input type="file" accept="image/png" id="thumbnailUrl" placeholder="https://.../image.png" required>
+        <label for="thumbnailFile">Thumbnail Image (.png, .jpg)</label>
+        <input type="file" id="thumbnailFile" accept="image/png, image/jpeg" required>
       </div>
 
       <div class="form-group">
-        <label for="driveLink">Google Drive Video Link</label>
+        <label for="driveLink">Google Drive Video Link or File ID</label>
         <input type="text" id="driveLink" placeholder="https://drive.google.com/file/d/FILE_ID/view" required>
       </div>
 
@@ -59,10 +59,35 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // Function to extract Google Drive File ID from any shareable URL
+    // Resizes image automatically so it never exceeds Firestore size limits
+    function compressImage(file, maxWidth = 500) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (e) => {
+          const img = new Image();
+          img.src = e.target.result;
+          img.onload = () => {
+            const canvas = document.createElement("canvas");
+            const scaleSize = maxWidth / img.width;
+            canvas.width = maxWidth;
+            canvas.height = img.height * scaleSize;
+
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+            // Returns optimized Base64 PNG data URL
+            resolve(canvas.toDataURL("image/png"));
+          };
+          img.onerror = (err) => reject(err);
+        };
+        reader.onerror = (err) => reject(err);
+      });
+    }
+
     function extractDriveId(url) {
       const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-      return match ? match[1] : url; // Returns the ID or original string if already an ID
+      return match ? match[1] : url;
     }
 
     const form = document.getElementById("addMovieForm");
@@ -73,19 +98,23 @@
 
       const title = document.getElementById("title").value;
       const description = document.getElementById("description").value;
-      const thumbnailUrl = document.getElementById("thumbnailUrl").value;
+      const pngFile = document.getElementById("thumbnailFile").files[0];
       const rawDriveLink = document.getElementById("driveLink").value;
 
-      // Extract the File ID cleanly
-      const driveFileId = extractDriveId(rawDriveLink);
-
       try {
+        statusMsg.textContent = "Compressing image...";
+        
+        // Compress the image before uploading
+        const optimizedThumbnail = await compressImage(pngFile);
+
         statusMsg.textContent = "Saving to database...";
+
+        const driveFileId = extractDriveId(rawDriveLink);
 
         await addDoc(collection(db, "movies"), {
           title: title,
           description: description,
-          thumbnail: thumbnailUrl,
+          thumbnail: optimizedThumbnail,
           driveFileId: driveFileId,
           createdAt: new Date().toISOString()
         });
@@ -94,7 +123,7 @@
         form.reset();
 
       } catch (err) {
-        console.error(err);
+        console.error("Error:", err);
         statusMsg.textContent = "Error: " + err.message;
       }
     });
