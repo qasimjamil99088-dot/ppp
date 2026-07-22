@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Movie Player</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .player-section {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+      text-align: center;
+    }
+    video {
+      width: 100%;
+      max-height: 500px;
+      background: #000;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+    .movie-details {
+      margin-top: 20px;
+      text-align: left;
+    }
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div>
+    <nav class="navbar">
+      <a href="index.html" class="logo">WebSite</a>
+      <ul class="nav-links">
+        <li><a href="home.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="player-section">
+    <a href="home.html" class="back-btn">&larr; Back to Home</a>
+    
+    <!-- Video Player Element -->
+    <video id="videoPlayer" controls autoplay controlsList="nodownload">
+      Your browser does not support HTML5 video streaming.
+    </video>
+
+    <div class="movie-details">
+      <h1 id="movieTitle">Loading...</h1>
+      <p id="movieDesc"></p>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCQdkuuTAvR7W7O4AKzvLG4E6p4yzRABJc",
+      authDomain: "opih-e3eb5.firebaseapp.com",
+      projectId: "opih-e3eb5",
+      storageBucket: "opih-e3eb5.firebasestorage.app",
+      messagingSenderId: "892201531636",
+      appId: "1:892201531636:web:3765735604a0616752c6a1",
+      measurementId: "G-9ZZ96PBRSP"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // 1. Auth Guard
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = "index.html";
+      } else {
+        loadMovie();
+      }
+    });
+
+    // 2. Fetch specific movie by ID from URL parameter
+    async function loadMovie() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const movieId = urlParams.get('id');
+
+      if (!movieId) {
+        window.location.href = "home.html";
+        return;
+      }
+
+      try {
+        const docRef = doc(db, "movies", movieId);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const movie = docSnap.data();
+
+          document.getElementById("movieTitle").textContent = movie.title;
+          document.getElementById("movieDesc").innerHTML = movie.description;
+
+          const videoPlayer = document.getElementById("videoPlayer");
+          videoPlayer.src = movie.videoUrl;
+        } else {
+          alert("Movie not found!");
+          window.location.href = "home.html";
+        }
+      } catch (err) {
+        console.error("Error loading movie:", err);
+      }
+    }
+  </script>
+</body>
+</html>

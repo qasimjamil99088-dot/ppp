@@ -1,0 +1,299 @@
+.body{
+    background-color: azure;
+}
+    .navbar {
+      background-color: #1e293b;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+    }
+
+    .logo {
+      color: #ffffff;
+      font-size: 1.25rem;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: #e2e8f0;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: #38bdf8;
+    }
+    .heading{
+        text-align: center;
+        -webkit-text-stroke: 1px rgb(80, 73, 73);
+        color:aqua;
+        font-size: 5rem;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        text-shadow:2px 2px 4px rgba(0, 0, 0, 0.3);
+
+    }
+    .p1{
+        text-align: center;
+        color: white;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+    /* Base button styles */
+.btn1 {
+  display: inline-block;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: rgb(6, 126, 126); /* Primary blue */
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Hover state (mouse over) */
+.btn:hover {
+  background-color: #1d4ed8;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Active state (when clicked) */
+.btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Focus state (keyboard navigation / accessibility) */
+.btn:focus-visible {
+  outline: 3px solid #93c5fd;
+  outline-offset: 2px;
+}
+.button-wrapper {
+  display: flex;
+  justify-content: center; /* Horizontally centers the button */
+  padding: 40px 0;         /* Adds spacing above/below */
+}
+body {
+  background: url("bg.png") no-repeat center center / cover fixed;
+  min-height: 100vh;
+  margin: 0;
+}
+/* Fullscreen Dark Overlay (Hidden by default) */
+.modal-overlay {
+  display: none; /* Keeps it hidden until JS shows it */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6); /* Dark backdrop */
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Class added by JavaScript to make the popup visible */
+.modal-overlay.show {
+  display: flex;
+}
+
+/* White Popup Box */
+.modal-card {
+  background-color: #ffffff;
+  padding: 32px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  font-family: Arial, sans-serif;
+}
+
+.modal-card h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #111827;
+}
+
+/* Close (X) Icon */
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #6b7280;
+  line-height: 1;
+}
+
+.close-btn:hover {
+  color: #111827;
+}
+
+/* Form Layout */
+.form-group {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #374151;
+  font-weight: 600;
+}
+
+.form-group input {
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+}
+
+.form-group input:focus {
+  border-color: #2563eb;
+}
+
+/* Submit Button Inside Popup */
+.submit-btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  background-color: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.submit-btn:hover {
+  background-color: #1d4ed8;
+}
+.footer{
+    background-color: transparent;
+    color: black;
+    text-align: center;
+    border-radius: 1px black;
+    font-family: monospace;
+    background: rgba(255, 255, 255, 0.15);
+
+  /* 2. The magic blur effect behind the glass */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px); /* Safari support */
+
+  /* 3. Subtle translucent border for glass edges */
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+
+  /* 4. Soft inner drop shadow for depth */
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+
+  /* Spacing and position */
+  padding: 30px 20px;
+  color: #ffffff; /* White text looks best on frosted glass */
+  width: 100%;
+}
+.h2{
+    color: #d1d5db;
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+}
+.toggle-text {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 13px;
+  color: #4b5563;
+}
+
+#toggleMode {
+  color: #2563eb;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: underline;
+}
+.h3{
+    color: white;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    text-align: center;
+    font-size: 3rem;
+    text-shadow: #111827;
+
+}
+.button-container{
+  display: flex;
+  justify-content: center; /* Horizontally centers the button */
+  padding: 10px 0;         /* Spacing above and below */
+}
+.card-grid {
+  display: grid;
+  /* Automatically fits as many cards as possible (min 280px each) */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Individual Card Box */
+.card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  overflow: hidden; /* Keeps image corners rounded */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Hover Lift Effect */
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Image Container */
+.card-image img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover; /* Prevents image stretching/distortion */
+  display: block;
+}
+
+/* Text Content Area */
+.card-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.card-title {
+  margin: 0 0 10px 0;
+  font-size: 20px;
+  color: #1f2937;
+  font-weight: 700;
+}
+
+.card-description {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.5;
+}

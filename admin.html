@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin - Upload Movie</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .admin-card {
+      max-width: 450px;
+      margin: 40px auto;
+      padding: 24px;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; font-weight: bold; margin-bottom: 5px; }
+    .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; }
+    .status-msg { margin-top: 15px; font-weight: bold; color: #2563eb; text-align: center; }
+  </style>
+</head>
+<body>
+
+  <div class="admin-card">
+    <h2>Upload Full Movie</h2>
+    <form id="addMovieForm">
+      <div class="form-group">
+        <label for="title">Movie Title</label>
+        <input type="text" id="title" placeholder="e.g. Stranger Things" required>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description / Seasons</label>
+        <textarea id="description" rows="3" placeholder="e.g. 3 Seasons <br> Released in 2024" required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="imageFile">Cover Image (JPG/PNG)</label>
+        <input type="file" id="imageFile" accept="image/*" required>
+      </div>
+
+      <div class="form-group">
+        <label for="videoFile">Movie Video File (MP4/WebM)</label>
+        <input type="file" id="videoFile" accept="video/*" required>
+      </div>
+
+      <button type="submit" class="btn1" style="width: 100%;">Upload & Publish</button>
+    </form>
+    <div id="statusMsg" class="status-msg"></div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCQdkuuTAvR7W7O4AKzvLG4E6p4yzRABJc",
+      authDomain: "opih-e3eb5.firebaseapp.com",
+      projectId: "opih-e3eb5",
+      storageBucket: "opih-e3eb5.firebasestorage.app",
+      messagingSenderId: "892201531636",
+      appId: "1:892201531636:web:3765735604a0616752c6a1",
+      measurementId: "G-9ZZ96PBRSP"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+
+    const form = document.getElementById("addMovieForm");
+    const statusMsg = document.getElementById("statusMsg");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const title = document.getElementById("title").value;
+      const description = document.getElementById("description").value;
+      const imgFile = document.getElementById("imageFile").files[0];
+      const vidFile = document.getElementById("videoFile").files[0];
+
+      try {
+        // 1. Upload Cover Image
+        statusMsg.textContent = "Uploading thumbnail...";
+        const imgRef = ref(storage, `thumbnails/${Date.now()}_${imgFile.name}`);
+        await uploadBytes(imgRef, imgFile);
+        const imageUrl = await getDownloadURL(imgRef);
+
+        // 2. Upload Movie Video File
+        statusMsg.textContent = "Uploading video file (this may take a few minutes)...";
+        const vidRef = ref(storage, `movies/${Date.now()}_${vidFile.name}`);
+        await uploadBytes(vidRef, vidFile);
+        const videoUrl = await getDownloadURL(vidRef);
+
+        statusMsg.textContent = "Saving to database...";
+
+        // 3. Save Entry to Firestore
+        await addDoc(collection(db, "movies"), {
+          title: title,
+          description: description,
+          thumbnail: imageUrl,
+          videoUrl: videoUrl,
+          createdAt: new Date().toISOString()
+        });
+
+        statusMsg.textContent = "Movie uploaded successfully!";
+        form.reset();
+
+      } catch (err) {
+        console.error(err);
+        statusMsg.textContent = "Error: " + err.message;
+      }
+    });
+  </script>
+</body>
+</html>
